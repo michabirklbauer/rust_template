@@ -1,7 +1,6 @@
 use template::math;
 
 fn main() {
-
     let x: i32 = 3;
     let y: i32 = 5;
 
