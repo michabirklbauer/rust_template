@@ -4,11 +4,11 @@ use template::math;
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
 struct Args {
-    /// first number
+    /// First number
     #[arg(short, long)]
     xx: i32,
 
-    /// second number
+    /// Second number
     #[arg(short, long, default_value_t = 2)]
     yy: i32,
 }
@@ -22,4 +22,10 @@ fn main() {
     let z = math::add_two_i32(x, y);
 
     println!("The sum of {} and {} is {}.", x, y, z);
+}
+
+#[test]
+fn verify_args() {
+    use clap::CommandFactory;
+    Args::command().debug_assert()
 }
