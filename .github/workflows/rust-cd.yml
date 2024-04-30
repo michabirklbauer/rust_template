@@ -1,63 +1,59 @@
 name: Rust CD
 
 on:
+  push:
+    branches: [ "master" ]
   workflow_dispatch:
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
+
   build_macos:
     name: Build Rust executable for macOS
     runs-on: macos-latest
-    strategy:
-      matrix:
-        target: [aarch64-apple-darwin, x86_64-apple-darwin]
 
     steps:
     - uses: actions/checkout@v4
     - name: Install dependencies
-      run: rustup target add ${{ matrix.target }}
+      run: rustup target add aarch64-apple-darwin
     - name: Build executable
-      run: cargo build --verbose --release --target ${{ matrix.target }}
+      run: cargo build --verbose --release --target aarch64-apple-darwin
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ matrix.target }}
-        path: target/${{ matrix.target }}/release
+        name: aarch64-apple-darwin
+        path: target/aarch64-apple-darwin/release
 
   build_linux:
     name: Build Rust executable for Linux
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        target: [aarch64-unknown-linux-gnu, x86_64-unknown-linux-gnu]
 
     steps:
     - uses: actions/checkout@v4
     - name: Install dependencies
-      run: rustup target add ${{ matrix.target }}
+      run: rustup target add x86_64-unknown-linux-gnu
     - name: Build executable
-      run: cargo build --verbose --release --target ${{ matrix.target }}
+      run: cargo build --verbose --release --target x86_64-unknown-linux-gnu
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ matrix.target }}
-        path: target/${{ matrix.target }}/release
+        name: x86_64-unknown-linux-gnu
+        path: target/x86_64-unknown-linux-gnu/release
 
   build_windows:
     name: Build Rust executable for Windows
     runs-on: windows-latest
-    strategy:
-      matrix:
-        target: [x86_64-pc-windows-msvc]
 
     steps:
     - uses: actions/checkout@v4
+    - name: Install dependencies
+      run: rustup target add x86_64-pc-windows-msvc
     - name: Build executable
-      run: cargo build --verbose --release --target ${{ matrix.target }}
+      run: cargo build --verbose --release --target x86_64-pc-windows-msvc
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ matrix.target }}
-        path: target/${{ matrix.target }}/release
+        name: x86_64-pc-windows-msvc
+        path: target/x86_64-pc-windows-msvc/release
