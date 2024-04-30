@@ -7,12 +7,46 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
-    name: Build Rust executable
+  build_macos:
+    name: Build Rust executable for macOS
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        target: [aarch64-apple-darwin, x86_64-apple-darwin]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build executable
+      run: cargo build --verbose --release --target ${{ matrix.target }}
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.target }}
+        path: target/${{ matrix.target }}/release
+
+  build_linux:
+    name: Build Rust executable for Linux
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        targets: [aarch64-apple-darwin, x86_64-apple-darwin, aarch64-unknown-linux-gnu, x86_64-unknown-linux-gnu, x86_64-pc-windows-msvc]
+        target: [aarch64-unknown-linux-gnu, x86_64-unknown-linux-gnu]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build executable
+      run: cargo build --verbose --release --target ${{ matrix.target }}
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.target }}
+        path: target/${{ matrix.target }}/release
+
+  build_windows:
+    name: Build Rust executable for Windows
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        target: [x86_64-pc-windows-msvc]
 
     steps:
     - uses: actions/checkout@v4
