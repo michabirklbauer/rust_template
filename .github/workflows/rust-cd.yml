@@ -16,6 +16,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Install dependencies
+      run: rustup target add ${{ matrix.target }}
     - name: Build executable
       run: cargo build --verbose --release --target ${{ matrix.target }}
     - name: Upload artifact
@@ -33,6 +35,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Install dependencies
+      run: rustup target add ${{ matrix.target }}
     - name: Build executable
       run: cargo build --verbose --release --target ${{ matrix.target }}
     - name: Upload artifact
