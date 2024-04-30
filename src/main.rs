@@ -23,3 +23,9 @@ fn main() {
 
     println!("The sum of {} and {} is {}.", x, y, z);
 }
+
+#[test]
+fn verify_args() {
+    use clap::CommandFactory;
+    Args::command().debug_assert()
+}
