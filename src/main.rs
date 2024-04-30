@@ -1,8 +1,23 @@
 use template::math;
+use clap::Parser;
+
+#[derive(Parser)]
+#[command(version, about, long_about = None)]
+struct Args {
+    /// first number
+    #[arg(short, long)]
+    xx: i32,
+
+    /// second number
+    #[arg(short, long, default_value_t = 2)]
+    yy: i32,
+}
 
 fn main() {
-    let x: i32 = 3;
-    let y: i32 = 5;
+    let args = Args::parse();
+
+    let x: i32 = args.xx;
+    let y: i32 = args.yy;
 
     let z = math::add_two_i32(x, y);
 
