@@ -34,7 +34,8 @@ jobs:
         <meta charset=\"utf-8\">
         <title>Redirecting to template/index.html</title>
         <meta http-equiv=\"refresh\" content=\"0; URL=template/index.html\">
-        <link rel=\"canonical\" href=\"template/index.html\">" > docs/doc
+        <link rel=\"canonical\" href=\"template/index.html\">" \
+        > docs/doc/index.html
     - name: Add .nojekyll
       run: touch docs/doc/.nojekyll
     - name: Upload artifact
