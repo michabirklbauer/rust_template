@@ -1,0 +1,56 @@
+name: Deploy Docs to Pages
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v7
+    - name: Install toolchain
+      run: |
+        rustup update
+    - name: Setup Pages
+      uses: actions/configure-pages@v6
+    - name: Build with cargo
+      run: cargo doc --no-deps --target-dir docs
+    - name: Add index.html
+      run: |
+        echo \
+        "<!DOCTYPE html>
+        <meta charset=\"utf-8\">
+        <title>Redirecting to template/index.html</title>
+        <meta http-equiv=\"refresh\" content=\"0; URL=template/index.html\">
+        <link rel=\"canonical\" href=\"template/index.html\">" > docs/doc
+    - name: Add .nojekyll
+      run: touch docs/doc/.nojekyll
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v5
+      with:
+        path: docs/doc
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
+    name: Deploy
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v5
