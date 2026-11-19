@@ -10,6 +10,7 @@ A template repository for formatting, linting, testing, and building Rust execut
 - Adjust this `README.md` according to your needs.
 - Adjust `.gitattributes` according to your needs.
 - Adjust `.gitignore` according to your needs.
+- Adjust `.github/workflows/gh-pages.yml` lines `35 - 37` (update `template` name)!
 - Replace copyright name in `LICENSE` or add your own license.
 - Setup your `CITATION.cff` according to your needs [or delete file].
 - Setup the `Cargo.toml` file according to your needs.
